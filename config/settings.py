@@ -6,13 +6,10 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("DJANGO_SECRET_KEY", default="unsafe-dev-secret-key-change-me")
-
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
-
 ALLOWED_HOSTS = config(
     "DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv()
 )
-
 CSRF_TRUSTED_ORIGINS = config(
     "DJANGO_CSRF_TRUSTED_ORIGINS",
     default="http://localhost,http://127.0.0.1",
@@ -20,7 +17,6 @@ CSRF_TRUSTED_ORIGINS = config(
 )
 
 SITE_DOMAIN = config("DJANGO_SITE_DOMAIN", default="localhost:8000")
-
 SITE_NAME = config("DJANGO_SITE_NAME", default="Localhost")
 
 INSTALLED_APPS = [
@@ -181,28 +177,32 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
-        "file": {
-            "level": "ERROR",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": BASE_DIR / "logs" / "django.log",
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "verbose",
-        },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["file"],
+            "handlers": ["console"],
             "level": "ERROR",
             "propagate": False,
         },
     },
 }
+
+if DEBUG:
+    LOGGING["handlers"]["file"] = {
+        "level": "ERROR",
+        "class": "logging.handlers.RotatingFileHandler",
+        "filename": BASE_DIR / "logs" / "django.log",
+        "maxBytes": 1024 * 1024 * 5,
+        "backupCount": 5,
+        "formatter": "verbose",
+    }
+    LOGGING["loggers"]["django"]["handlers"].append("file")
+    LOGGING["loggers"]["django.request"]["handlers"].append("file")
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
