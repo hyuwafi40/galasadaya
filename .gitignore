@@ -60,6 +60,7 @@ htmlcov/
 .env.local
 .env.production
 .env.staging
+!.env.example
 
 # Deploy script (mengandung kredensial, jangan di-upload)
 deploy_vps.sh
