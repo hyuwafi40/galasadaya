@@ -13,6 +13,6 @@ def core_context(request):
         "brand": brand,
         "menus": menus,
         "breadcrumb_title": breadcrumb_title,
-        "developer_name": "Fotografer tidak terkenal",
+        "developer_name": "GALA SAGALA",
         "developer_url": "#",
     }

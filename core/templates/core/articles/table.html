@@ -21,7 +21,7 @@
                                 </span>
                                 <span class="text-slate-800">{{ article.title }}</span>
                             </td>
-                            <td class="px-5 py-3.5">{{ article.created_by }}</td>
+                            <td class="px-5 py-3.5">{{ article.created_by__get_full_name }}</td>
                             <td class="px-5 py-3.5">
                                 <form method="post" action="{% url 'core:articles_status' article.pk %}">
                                     {% csrf_token %}
