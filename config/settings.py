@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,7 +79,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=config("DJANGO_DATABASE_URL", default="sqlite:///db.sqlite3")
+        default=config("DJANGO_DATABASE_URL", default="sqlite:///db.sqlite3"),
+        conn_max_age=600,
+        ssl_require=True,
     )
 }
 
@@ -103,7 +106,7 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "core:index"
-LOGOUT_REDIRECT_URL = "blog:index"
+LOGOUT_REDIRECT_URL = "login"
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
@@ -209,6 +212,7 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    USE_X_FORWARDED_HOST = True
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
