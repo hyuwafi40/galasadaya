@@ -12,6 +12,9 @@ CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS", default="http://localhost,http://127.0.0.1", cast=Csv()
 )
 
+SITE_DOMAIN = config("SITE_DOMAIN", default="localhost:8000")
+SITE_NAME = config("SITE_NAME", default="Localhost")
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -70,7 +73,6 @@ DATABASES = {
     "default": dj_database_url.config(
         default=config("DATABASE_URL", default="sqlite:///db.sqlite3"),
         conn_max_age=600,
-        ssl_require=True,
     )
 }
 
