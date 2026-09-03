@@ -133,3 +133,5 @@ coverage.xml
 *.pid.lock
 *.seed
 *.pub
+.vercel
+.env*
