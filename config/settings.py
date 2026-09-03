@@ -1,3 +1,4 @@
+# config/settings.py
 from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
@@ -5,19 +6,15 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config("DJANGO_SECRET_KEY", default="unsafe-dev-secret-key-change-me")
-DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
-ALLOWED_HOSTS = config(
-    "DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv()
-)
+SECRET_KEY = config("SECRET_KEY", default="unsafe-dev-secret-key-change-me")
+DEBUG = config("DEBUG", default=False, cast=bool)
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv())
 CSRF_TRUSTED_ORIGINS = config(
-    "DJANGO_CSRF_TRUSTED_ORIGINS",
-    default="http://localhost,http://127.0.0.1",
-    cast=Csv(),
+    "CSRF_TRUSTED_ORIGINS", default="http://localhost,http://127.0.0.1", cast=Csv()
 )
 
-SITE_DOMAIN = config("DJANGO_SITE_DOMAIN", default="localhost:8000")
-SITE_NAME = config("DJANGO_SITE_NAME", default="Localhost")
+SITE_DOMAIN = config("SITE_DOMAIN", default="localhost:8000")
+SITE_NAME = config("SITE_NAME", default="Localhost")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -75,7 +72,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=config("DJANGO_DATABASE_URL", default="sqlite:///db.sqlite3"),
+        default=config("DATABASE_URL", default="sqlite:///db.sqlite3"),
         conn_max_age=600,
         ssl_require=True,
     )

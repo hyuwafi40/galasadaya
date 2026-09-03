@@ -1,3 +1,3 @@
-pip install -r requirements.txt
+#!/bin/bash
+set -e
 python manage.py collectstatic --noinput
-python manage.py migrate
