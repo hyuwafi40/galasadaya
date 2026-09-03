@@ -1,15 +1,28 @@
 from pathlib import Path
-from decouple import config, Csv
 import dj_database_url
-import os
+from decouple import config, Csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config("SECRET_KEY", default="unsafe-dev-secret-key-change-me")
 DEBUG = config("DEBUG", default=False, cast=bool)
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv())
+
+SECRET_KEY = config("SECRET_KEY", default="")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "dev-only-secret-key"
+    else:
+        raise ValueError("SECRET_KEY harus diisi di environment!")
+
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default=".vercel.app,localhost,127.0.0.1",
+    cast=Csv(),
+)
+
 CSRF_TRUSTED_ORIGINS = config(
-    "CSRF_TRUSTED_ORIGINS", default="http://localhost,http://127.0.0.1", cast=Csv()
+    "CSRF_TRUSTED_ORIGINS",
+    default="https://*.vercel.app,http://localhost,http://127.0.0.1",
+    cast=Csv(),
 )
 
 SITE_DOMAIN = config("SITE_DOMAIN", default="galasadaya.vercel.app")
@@ -26,10 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "solo",
     "guardian",
+    "django_cleanup",
     "django_ckeditor_5",
+    "axes",
     "core",
     "blog",
-    "django_cleanup",
 ]
 
 MIDDLEWARE = [
@@ -40,6 +54,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "axes.middleware.AxesMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.CurrentUserMiddleware",
@@ -67,12 +82,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=config("DATABASE_URL", default="sqlite:///db.sqlite3"),
-        conn_max_age=600,
-    )
-}
+DATABASE_URL = config("DATABASE_URL", default="")
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    if not DATABASE_URL:
+        raise ValueError("DATABASE_URL wajib diisi saat produksi!")
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=0,
+            ssl_require=True,
+        )
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -90,14 +117,15 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "guardian.backends.ObjectPermissionBackend",
+    "axes.backends.AxesStandaloneBackend",
 ]
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "core:index"
 LOGOUT_REDIRECT_URL = "login"
 
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+LANGUAGE_CODE = "id"
+TIME_ZONE = "Asia/Jakarta"
 USE_I18N = True
 USE_TZ = True
 
@@ -106,6 +134,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -140,6 +170,12 @@ CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.fallback.FallbackStorage"
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1
+AXES_LOCKOUT_TEMPLATE = "lockout.html"
+AXES_RESET_ON_SUCCESS = True
+AXES_LOCKOUT_PARAMETERS = ["username", "ip_address"]
 
 SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -187,20 +223,3 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     USE_X_FORWARDED_HOST = True
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-        },
-    }
-else:
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        },
-    }

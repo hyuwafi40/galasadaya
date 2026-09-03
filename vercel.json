@@ -1,9 +1,10 @@
 {
-  "version": 2,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "config/wsgi.py"
-    }
-  ]
+    "version": 2,
+    "buildCommand": "bash build_files.sh",
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "config/wsgi.py"
+        }
+    ]
 }
