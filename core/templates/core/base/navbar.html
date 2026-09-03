@@ -1,0 +1,60 @@
+<header class="h-20 flex items-center justify-between px-4 md:px-8 z-20">
+    <div class="flex items-center gap-4">
+        <button id="openSidebar"
+                class="md:hidden w-11 h-11 rounded-2xl glass-base flex items-center justify-center text-slate-600 hover:bg-white transition-colors btn-press">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav class="hidden sm:flex items-center text-xs font-medium text-slate-500 bg-white/40 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/60">
+            <a href="{% url 'core:index' %}"
+               class="hover:text-indigo-600 transition-colors">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <span class="mx-3 text-slate-300"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+            <span class="text-indigo-700 font-bold">{{ breadcrumb_title }}</span>
+        </nav>
+    </div>
+    <div class="flex items-center gap-3 sm:gap-4">
+        <div class="relative" id="profileDropdownContainer">
+            <button id="profileBtn"
+                    class="glass-base flex items-center gap-3 p-1.5 pr-4 rounded-2xl hover:bg-white transition-all btn-press">
+                <img src="{% if request.user.profile_image_url %}{{ request.user.profile_image_url }}{% else %}https://i.pravatar.cc/150?img=11{% endif %}"
+                     alt="Profile"
+                     class="w-8 h-8 rounded-xl object-cover">
+                <div class="hidden lg:block text-left">
+                    <p class="text-sm font-bold leading-none text-slate-800">
+                        {{ request.user.get_full_name|default:request.user.username }}
+                    </p>
+                    <p class="text-[11px] font-medium text-slate-500 mt-0.5">
+                        {% if request.user.is_superuser %}Superuser{% elif request.user.is_staff %}Staff{% else %}User{% endif %}
+                    </p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 hidden lg:block ml-1"></i>
+            </button>
+            <menu id="profileMenu"
+                  class="glass-panel absolute right-0 top-full mt-3 w-56 rounded-3xl p-2 hidden opacity-0 transform scale-95 transition-all origin-top-right z-50">
+                <li>
+                    <a href="#"
+                       class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-white/80 hover:text-indigo-600 rounded-2xl transition-colors">
+                        <i class="fa-regular fa-user w-4"></i> My Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                       class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-white/80 hover:text-indigo-600 rounded-2xl transition-colors">
+                        <i class="fa-solid fa-sliders w-4"></i> Preferences
+                    </a>
+                </li>
+                <li class="h-px bg-slate-200/50 my-1 mx-3"></li>
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-rose-500 hover:bg-rose-50 rounded-2xl transition-colors">
+                            <i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </menu>
+        </div>
+    </div>
+</header>

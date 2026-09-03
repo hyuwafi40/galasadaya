@@ -1,0 +1,27 @@
+{% load static %}
+{% if ad.link %}
+    <a href="{{ ad.link }}"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="glass-panel overflow-hidden rounded-2xl block group">
+{% else %}
+    <div class="glass-panel overflow-hidden rounded-2xl">
+{% endif %}
+    {% if ad.image_preview %}
+        <img src="{{ ad.image_preview }}"
+             alt="{{ ad.name }}"
+             class="w-full h-40 object-cover">
+    {% else %}
+        <div class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">
+            <i class="fas fa-image text-4xl"></i>
+        </div>
+    {% endif %}
+    <div class="p-4">
+        <p class="font-bold text-gray-900">{{ ad.name }}</p>
+        {% if not ad.link %}<p class="text-xs text-gray-500">Tidak tersedia</p>{% endif %}
+    </div>
+    {% if ad.link %}
+        </a>
+    {% else %}
+        </div>
+    {% endif %}

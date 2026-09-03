@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}{% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %} | Home{% endblock %}
+{% block hero %}
+    {% if carousels %}
+        {% include 'blog/partials/hero_carousel.html' %}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="pt-16 pb-10 {% if carousels %}-mt-32{% endif %}">
+        {% if not carousels and articles and page_obj.number == 1 %}
+            {% include 'blog/partials/hero_featured.html' %}
+        {% endif %}
+        {% include 'blog/partials/intro_section.html' %}
+        {% include 'blog/partials/social_links.html' %}
+        {% include 'blog/partials/article_grid.html' %}
+        {% if advertisements %}
+            {% include 'blog/partials/advertisements.html' %}
+        {% endif %}
+        {% if categories or tags %}
+            {% include 'blog/partials/category_tag_cloud.html' %}
+        {% endif %}
+        {% include 'blog/base/pagination.html' with page_obj=page_obj %}
+    </div>
+{% endblock %}

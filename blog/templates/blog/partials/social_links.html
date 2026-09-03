@@ -1,0 +1,27 @@
+{% load static %}
+<div class="flex flex-wrap justify-center gap-3">
+    {% if brand and brand.instagram %}
+        <a href="{{ brand.instagram }}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-800 hover:bg-neon-pink hover:text-white transition-all"><i class="fab fa-instagram"></i></a>
+    {% endif %}
+    {% if brand and brand.youtube %}
+        <a href="{{ brand.youtube }}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-800 hover:bg-neon-cyan hover:text-white transition-all"><i class="fab fa-youtube"></i></a>
+    {% endif %}
+    {% if brand and brand.tiktok %}
+        <a href="{{ brand.tiktok }}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-800 hover:bg-neon-violet hover:text-white transition-all"><i class="fab fa-tiktok"></i></a>
+    {% endif %}
+    {% if brand and brand.facebook %}
+        <a href="{{ brand.facebook }}"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-800 hover:bg-neon-pink hover:text-white transition-all"><i class="fab fa-facebook-f"></i></a>
+    {% endif %}
+</div>

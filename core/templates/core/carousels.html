@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Carousels{% endblock %}
+{% block content %}
+    {% include 'core/carousels/hero.html' %}
+    {% include 'core/carousels/control.html' %}
+    {% include 'core/carousels/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Carousel" delete_message="Yakin ingin menghapus carousel ini?" delete_action_url="#" %}
+    {% include 'core/carousels/form.html' %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/carousels.js' %}"></script>
+{% endblock %}

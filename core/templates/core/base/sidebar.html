@@ -1,0 +1,56 @@
+<aside id="sidebar"
+       class="glass-base fixed md:relative z-40 inset-y-0 left-0 w-[260px] flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) rounded-r-3xl md:rounded-none border-r border-white/80 md:h-screen">
+    <header class="h-20 flex items-center justify-between px-6 border-b border-white/40">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-300">
+                <i class="fa-solid fa-shapes text-sm"></i>
+            </div>
+            <span class="font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-purple-700">
+                {% if brand %}{{ brand.name }}{% else %}DashCore{% endif %}
+            </span>
+        </div>
+        <button id="closeSidebar"
+                class="md:hidden w-8 h-8 flex items-center justify-center rounded-full bg-white/50 text-slate-500 hover:bg-white hover:text-rose-500 transition-colors btn-press">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </header>
+    <nav class="flex-1 min-h-0 overflow-y-auto hide-scroll py-4 px-3 flex flex-col gap-4">
+        {% if menus %}
+            {% for menu in menus %}
+                <section class="grid gap-1">
+                    <h3 class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ menu.category }}</h3>
+                    <ul class="grid gap-0.5">
+                        {% for item in menu.items %}
+                            <li>
+                                <a href="{% if item.url != '#' %}{% url item.url %}{% else %}#{% endif %}"
+                                   class="flex items-center gap-3 px-3 py-2 rounded-2xl {% if request.resolver_match.view_name == item.url %}bg-white/80 text-indigo-700 font-semibold shadow-sm border border-white{% else %}text-slate-500 hover:bg-white/60 hover:text-slate-800{% endif %} transition-all font-medium group">
+                                    <div class="w-7 h-7 rounded-lg {% if request.resolver_match.view_name == item.url %}bg-indigo-100 text-indigo-600{% else %}bg-transparent group-hover:bg-white text-slate-500{% endif %} flex items-center justify-center transition-colors">
+                                        <i class="fa-solid {% if item.icon %}{{ item.icon }}{% else %}fa-circle{% endif %} text-xs"></i>
+                                    </div>
+                                    {{ item.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endfor %}
+        {% endif %}
+        <section class="grid gap-1">
+            <h3 class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">System</h3>
+            <ul class="grid gap-0.5">
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl text-rose-500 hover:bg-rose-50 hover:text-rose-600 transition-all font-medium group mt-1">
+                            <div class="w-7 h-7 rounded-lg bg-transparent group-hover:bg-rose-100 flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                            </div>
+                            Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </section>
+    </nav>
+</aside>

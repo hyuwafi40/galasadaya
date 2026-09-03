@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block title %}Users{% endblock %}
+{% block content %}
+    {% include 'core/account/hero.html' %}
+    {% include 'core/account/control.html' %}
+    {% include 'core/account/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus User" delete_message="Yakin ingin menghapus user ini?" %}
+{% endblock %}

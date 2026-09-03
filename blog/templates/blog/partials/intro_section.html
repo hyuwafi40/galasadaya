@@ -1,0 +1,23 @@
+{% load static %}
+<section class="glass-panel p-10 md:p-16 text-center max-w-5xl mx-auto my-20">
+    <h2 class="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter mb-6">
+        Selamat Datang di <span class="text-neon">{{ brand.name|default:"SonicVibe" }}</span>
+    </h2>
+    <p class="text-lg md:text-xl font-semibold text-gray-700 max-w-3xl mx-auto">
+        {% if brand and brand.description %}
+            {{ brand.description }}
+        {% else %}
+            Kurasi visual dan narasi dari kancah musik elektronik, indie, dan festival terpanas di seluruh dunia.
+        {% endif %}
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="{% url 'blog:article_list' %}"
+           class="glass-btn px-8 py-4 rounded-full font-black uppercase tracking-widest inline-flex items-center gap-3">
+            Jelajahi Artikel <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="{% url 'blog:gallery_list' %}"
+           class="glass-pill px-8 py-4 rounded-full font-bold text-gray-800 hover:bg-white inline-flex items-center gap-3">
+            Lihat Galeri <i class="fas fa-images"></i>
+        </a>
+    </div>
+</section>

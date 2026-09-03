@@ -1,0 +1,13 @@
+{% load static %}
+<section class="my-20">
+    <div class="flex flex-wrap gap-3">
+        {% for category in categories %}
+            <a href="{% url 'blog:category' category.slug %}"
+               class="glass-pill px-5 py-2 text-sm font-bold text-gray-800 hover:bg-white">{{ category.name }}</a>
+        {% endfor %}
+        {% for tag in tags %}
+            <a href="{% url 'blog:search' %}?q={{ tag.name|urlencode }}"
+               class="glass-pill px-4 py-2 text-sm font-bold text-gray-700 hover:bg-white">#{{ tag.name }}</a>
+        {% endfor %}
+    </div>
+</section>

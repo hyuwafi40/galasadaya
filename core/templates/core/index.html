@@ -1,0 +1,153 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="grid gap-8">
+        <div class="glass-panel p-6 rounded-[2rem] flex items-center gap-4 anim-fade-in relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-200">
+                <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl font-extrabold text-slate-800">Selamat Datang, {{ request.user.get_full_name|default:request.user.username }}</h2>
+                <p class="text-sm text-slate-500 flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-white/60 text-indigo-700 border border-white">
+                        {% if request.user.is_superuser %}Superuser{% elif request.user.is_staff %}Staff{% else %}User{% endif %}
+                    </span>
+                    <span>Overview aktivitas situs</span>
+                </p>
+            </div>
+        </div>
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="glass-panel p-6 rounded-[2rem] glass-hover anim-slide-up"
+                 style="animation-delay: 0ms">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Artikel</p>
+                        <h3 class="text-3xl font-extrabold text-slate-800">{{ total_articles }}</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">
+                            <span class="text-emerald-600">{{ total_articles_published }} Published</span> ·
+                            <span class="text-amber-600">{{ total_articles_draft }} Draft</span>
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100 shadow-sm">
+                        <i class="fa-solid fa-newspaper text-lg"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-[2rem] glass-hover anim-slide-up"
+                 style="animation-delay: 80ms">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Kategori & Tag</p>
+                        <h3 class="text-3xl font-extrabold text-slate-800">{{ total_categories }} <span class="text-lg font-bold text-slate-400">/</span> {{ total_tags }}</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Total kategori dan tag</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 shadow-sm">
+                        <i class="fa-solid fa-folder text-lg"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-[2rem] glass-hover anim-slide-up"
+                 style="animation-delay: 160ms">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Galeri</p>
+                        <h3 class="text-3xl font-extrabold text-slate-800">{{ total_albums }} <span class="text-lg font-bold text-slate-400">/</span> {{ total_photos }}</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Album dan foto</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100 shadow-sm">
+                        <i class="fa-solid fa-images text-lg"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-[2rem] glass-hover anim-slide-up"
+                 style="animation-delay: 240ms">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Iklan & User</p>
+                        <h3 class="text-3xl font-extrabold text-slate-800">{{ total_advertisements }} <span class="text-lg font-bold text-slate-400">/</span> {{ total_users }}</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-1">Iklan aktif dan staff</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100 shadow-sm">
+                        <i class="fa-solid fa-ad text-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section class="glass-panel p-6 rounded-[2rem] anim-slide-up"
+                     style="animation-delay: 320ms">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-clock-rotate-left text-indigo-600"></i>
+                    <h2 class="text-xl font-extrabold text-slate-800">Artikel Terbaru</h2>
+                </div>
+                <ul class="space-y-3">
+                    {% for article in recent_articles %}
+                        <li class="flex items-center gap-3 p-3 rounded-2xl bg-white/40 hover:bg-white/70 transition-colors">
+                            <span class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <i class="fa-solid fa-file-lines"></i>
+                            </span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold text-slate-800 truncate">{{ article.title }}</p>
+                                <p class="text-xs font-semibold text-slate-500">
+                                    {{ article.created_at|date:"d M Y" }} ·
+                                    {% if article.status == 'published' %}<span class="text-emerald-600">Published</span>{% else %}<span class="text-amber-600">Draft</span>{% endif %}
+                                </p>
+                            </div>
+                            <span class="text-xs text-slate-400"><i class="fa-solid fa-chevron-right"></i></span>
+                        </li>
+                    {% empty %}
+                        <li class="text-slate-500 text-sm p-3 bg-white/40 rounded-2xl">Belum ada artikel.</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            <div class="grid gap-8">
+                <section class="glass-panel p-6 rounded-[2rem] anim-slide-up"
+                         style="animation-delay: 400ms">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-comments text-emerald-600"></i>
+                        <h2 class="text-xl font-extrabold text-slate-800">Komentar Terbaru</h2>
+                    </div>
+                    <ul class="space-y-3">
+                        {% for comment in recent_comments %}
+                            <li class="flex items-start gap-3 p-3 rounded-2xl bg-white/40 hover:bg-white/70 transition-colors">
+                                <span class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-bold text-xs shrink-0">
+                                    {{ comment.name|first|upper }}
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-bold text-slate-800">{{ comment.name }}</p>
+                                    <p class="text-xs font-semibold text-slate-500 truncate">{{ comment.text|truncatechars:60 }}</p>
+                                </div>
+                            </li>
+                        {% empty %}
+                            <li class="text-slate-500 text-sm p-3 bg-white/40 rounded-2xl">Belum ada komentar.</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <section class="glass-panel p-6 rounded-[2rem] anim-slide-up"
+                         style="animation-delay: 480ms">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-envelope text-amber-600"></i>
+                        <h2 class="text-xl font-extrabold text-slate-800">Pesan Kontak Terbaru</h2>
+                    </div>
+                    <ul class="space-y-3">
+                        {% for contact in recent_contacts %}
+                            <li class="flex items-start gap-3 p-3 rounded-2xl bg-white/40 hover:bg-white/70 transition-colors">
+                                <span class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-bold text-xs shrink-0">
+                                    {{ contact.name|first|upper }}
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-bold text-slate-800">{{ contact.name }}</p>
+                                    <p class="text-xs font-semibold text-slate-500 truncate">{{ contact.message|truncatechars:60 }}</p>
+                                </div>
+                            </li>
+                        {% empty %}
+                            <li class="text-slate-500 text-sm p-3 bg-white/40 rounded-2xl">Belum ada pesan.</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

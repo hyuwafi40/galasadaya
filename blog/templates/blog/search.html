@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Pencarian{% if query %} {{ query }}{% endif %} | {% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %}{% endblock %}
+{% block content %}
+    <div class="pt-16 pb-10">
+        {% if query %}
+            <div class="glass-panel p-12 text-center bg-white/50 mb-20">
+                <span class="text-sm font-black text-gray-500 uppercase tracking-widest block mb-4">Hasil Pencarian</span>
+                <h1 class="text-4xl sm:text-5xl font-black text-gray-900 uppercase tracking-tighter">"{{ query }}"</h1>
+                <p class="font-bold text-gray-600 mt-4">Ditemukan {{ articles|length }} artikel.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-24 mt-10">
+                {% for article in articles %}
+                    {% include 'blog/partials/article_card.html' with article=article counter=forloop.counter is_first=forloop.first %}
+                {% empty %}
+                    <div class="col-span-full text-center py-20 glass-panel bg-white/40">
+                        <i class="fas fa-compact-disc text-6xl text-gray-400 mb-6 block"></i>
+                        <h3 class="text-3xl font-black text-gray-900 uppercase">Track Not Found</h3>
+                        <p class="font-bold text-gray-600 mt-2">Coba keyword artis atau festival lain.</p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% include 'blog/base/pagination.html' with page_obj=page_obj %}
+        {% else %}
+            <div class="max-w-xl mx-auto glass-panel p-12 text-center bg-white/60">
+                <i class="fas fa-search text-6xl text-neon-pink mb-6 block"></i>
+                <h1 class="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-4">Cari Konten</h1>
+                <p class="font-bold text-gray-600 mb-8">Masukkan kata kunci untuk menemukan artikel, event, atau artis favoritmu.</p>
+                <form method="get" action="{% url 'blog:search' %}" class="relative">
+                    <input type="text"
+                           name="q"
+                           placeholder="Cari artis, event..."
+                           class="w-full px-5 py-4 rounded-2xl glass-input text-sm font-semibold text-gray-800 placeholder-gray-600">
+                    <button type="submit"
+                            class="absolute right-2 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-gray-900 text-white hover:bg-neon-pink transition-colors flex items-center justify-center">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

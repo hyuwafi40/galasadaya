@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block title %}Articles{% endblock %}
+{% block content %}
+    {% include 'core/articles/hero.html' %}
+    {% include 'core/articles/control.html' %}
+    {% include 'core/articles/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Artikel" delete_message="Yakin ingin menghapus artikel ini?" %}
+{% endblock %}

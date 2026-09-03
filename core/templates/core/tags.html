@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Tags{% endblock %}
+{% block content %}
+    {% include 'core/tags/hero.html' %}
+    {% include 'core/tags/control.html' %}
+    {% include 'core/tags/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Tag" delete_message="Yakin ingin menghapus tag ini?" delete_action_url="#" %}
+    {% include 'core/tags/form.html' %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/tags.js' %}"></script>
+{% endblock %}

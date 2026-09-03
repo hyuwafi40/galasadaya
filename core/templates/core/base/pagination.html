@@ -1,0 +1,44 @@
+{% if page_obj and page_obj.paginator.num_pages > 1 %}
+    <div class="flex items-center justify-between mt-5">
+        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+            Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}
+        </span>
+        <nav class="flex gap-1.5" hx-boost="true">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}"
+                   class="w-9 h-9 rounded-xl flex items-center justify-center glass-base text-slate-500 hover:bg-white hover:text-indigo-600 btn-press">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </a>
+            {% else %}
+                <button disabled
+                        class="w-9 h-9 rounded-xl flex items-center justify-center glass-base text-slate-400 cursor-not-allowed">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </button>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                    <button class="w-9 h-9 rounded-xl flex items-center justify-center bg-indigo-600 text-white shadow-lg shadow-indigo-200 font-bold text-sm btn-press">{{ num }}</button>
+                {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    <a href="?page={{ num }}"
+                       class="w-9 h-9 rounded-xl flex items-center justify-center glass-base text-slate-600 hover:bg-white hover:text-indigo-600 font-bold text-sm btn-press">{{ num }}</a>
+                {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                    <a href="?page={{ num }}"
+                       class="w-9 h-9 rounded-xl flex items-center justify-center glass-base text-slate-600 hover:bg-white hover:text-indigo-600 font-bold text-sm btn-press">{{ num }}</a>
+                {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <span class="w-9 h-9 flex items-center justify-center text-slate-400">...</span>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"
+                   class="w-9 h-9 rounded-xl flex items-center justify-center glass-base text-slate-500 hover:bg-white hover:text-indigo-600 btn-press">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </a>
+            {% else %}
+                <button disabled
+                        class="w-9 h-9 rounded-xl flex items-center justify-center glass-base text-slate-400 cursor-not-allowed">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            {% endif %}
+        </nav>
+    </div>
+{% endif %}

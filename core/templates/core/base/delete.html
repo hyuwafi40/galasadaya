@@ -1,0 +1,22 @@
+<dialog id="modalOverlay"
+        class="fixed inset-0 bg-slate-900/20 backdrop-blur-[4px] z-[60] hidden flex items-center justify-center p-4 transition-opacity opacity-0 border-0 w-full h-full m-0 bg-transparent">
+    <div id="modalContent"
+         class="glass-panel w-full max-w-sm p-7 rounded-[2rem] transform scale-95 transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1) shadow-2xl">
+        <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-5 text-2xl border border-indigo-100 shadow-sm">
+            <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <h3 class="text-xl font-extrabold text-slate-800 mb-2">{{ delete_title|default:"Konfirmasi Hapus" }}</h3>
+        <p class="text-sm font-medium text-slate-500 mb-8 leading-relaxed">{{ delete_message|default:"Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan." }}</p>
+        <form method="post" action="{{ delete_action_url|default:'#' }}">
+            {% csrf_token %}
+            <div class="flex gap-3 justify-end">
+                <button type="button"
+                        id="cancelModal"
+                        class="px-5 py-2.5 rounded-xl bg-white/70 hover:bg-white text-slate-700 font-bold text-sm transition-colors border border-white btn-press">{{ delete_cancel_text|default:"Batal" }}</button>
+                <button type="submit"
+                        id="confirmModal"
+                        class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm shadow-xl shadow-rose-200/50 transition-all btn-press">{{ delete_confirm_text|default:"Ya, Hapus" }}</button>
+            </div>
+        </form>
+    </div>
+</dialog>

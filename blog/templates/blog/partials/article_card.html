@@ -1,0 +1,29 @@
+{% load static %}
+<article class="glass-panel overflow-visible group flex flex-col hover:-translate-y-4 transition-all duration-500 relative z-10 hover:z-20 {% if is_first %}{% else %}md:mt-12{% endif %} {% if counter|divisibleby:2 %} -rotate-2 hover:rotate-0 {% else %} rotate-2 hover:-rotate-1 {% endif %}">
+    <a href="{% url 'blog:article' article.slug %}"
+       class="block -mt-8 mx-4 sm:mx-6 rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-500 relative aspect-video border-2 border-white/60">
+        <img src="{{ article.thumbnail }}"
+             alt="{{ article.title }}"
+             loading="lazy"
+             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+            <span class="text-white font-bold"><i class="fas fa-expand mr-2"></i>View Gallery</span>
+        </div>
+    </a>
+    <div class="p-6 sm:p-8 pt-6 flex-grow flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <span class="glass-pill bg-white/50 text-gray-900 text-xs font-black px-3 py-1 uppercase tracking-widest border-neon-cyan">{{ article.category.name|default:"Uncategorized" }}</span>
+            <span class="text-xs font-bold text-gray-500">{{ article.created_at|date:"d M Y" }}</span>
+        </div>
+        <a href="{% url 'blog:article' article.slug %}">
+            <h3 class="font-black text-2xl leading-tight mb-3 text-gray-900 group-hover:text-neon-violet transition-colors">{{ article.title }}</h3>
+        </a>
+        <p class="text-sm font-medium text-gray-600 line-clamp-3 mb-6 flex-grow">{{ article.excerpt|default:article.content|striptags|truncatechars:150 }}</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-gray-300/50">
+            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-xs">
+                <i class="fas fa-camera"></i>
+            </div>
+            <span class="text-xs font-bold text-gray-800">{{ article.created_by.get_full_name|default:article.created_by.username }}</span>
+        </div>
+    </div>
+</article>

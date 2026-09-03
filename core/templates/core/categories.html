@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+    {% include 'core/categories/hero.html' %}
+    {% include 'core/categories/control.html' %}
+    {% include 'core/categories/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Kategori" delete_message="Yakin ingin menghapus kategori ini?" delete_action_url="#" %}
+    {% include 'core/categories/form.html' %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/categories.js' %}"></script>
+{% endblock %}

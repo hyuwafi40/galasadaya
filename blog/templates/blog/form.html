@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Kirim Karya | {% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %}{% endblock %}
+{% block content %}
+    <div class="max-w-2xl mx-auto pt-10 relative z-20">
+        <div class="glass-panel p-8 sm:p-12 bg-white/60">
+            <h1 class="text-3xl font-black text-gray-900 mb-8 uppercase tracking-tighter">Kirim Karya</h1>
+            {% if form.non_field_errors %}
+                <div class="mb-6 p-4 rounded-2xl bg-rose-100 text-rose-700 text-sm font-bold">{{ form.non_field_errors }}</div>
+            {% endif %}
+            <form method="post" action="" class="space-y-5">
+                {% csrf_token %}
+                {% for field in form %}
+                    <fieldset class="group flex flex-col gap-1.5">
+                        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider pl-1">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <span class="text-rose-500 text-xs">{{ field.errors|striptags }}</span>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="text-slate-400">{{ field.help_text }}</small>
+                        {% endif %}
+                    </fieldset>
+                {% endfor %}
+                <button type="submit"
+                        class="glass-btn px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm shadow-xl w-full">Kirim</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

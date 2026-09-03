@@ -1,0 +1,11 @@
+{% load static %}
+<section class="glass-panel p-6 rounded-[2rem] flex items-center gap-5">
+    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl">
+        <i class="fa-solid fa-camera"></i>
+    </div>
+    <div>
+        <p class="text-sm font-semibold text-slate-500">Album</p>
+        <p class="text-xl font-extrabold text-slate-800">{{ album.title }}</p>
+        <p class="text-sm font-semibold text-slate-500">Total Foto: {{ total_photos }}</p>
+    </div>
+</section>

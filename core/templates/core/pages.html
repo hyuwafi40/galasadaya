@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% block title %}Pages{% endblock %}
+{% block content %}
+    {% include 'core/pages/hero.html' %}
+    {% include 'core/pages/control.html' %}
+    {% include 'core/pages/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Halaman" delete_message="Yakin ingin menghapus halaman ini?" %}
+{% endblock %}

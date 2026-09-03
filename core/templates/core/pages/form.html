@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% block title %}Form Halaman{% endblock %}
+{% block content %}
+    <div class="glass-panel p-8 rounded-[2rem] w-full">
+        <h2 class="text-2xl font-extrabold text-slate-800 mb-6">{% if page %}Edit{% else %}Tambah{% endif %} Halaman</h2>
+        <form method="post" class="grid gap-5">
+            {% csrf_token %}
+            {% for field in form %}
+                <fieldset class="group flex flex-col gap-1.5">
+                    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider pl-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="text-rose-500 text-xs">{{ field.errors|striptags }}</span>
+                    {% endif %}
+                </fieldset>
+            {% endfor %}
+            <div class="flex justify-end gap-3 mt-4">
+                <a href="{% url 'core:pages' %}"
+                   class="px-5 py-2.5 rounded-xl bg-white/70 hover:bg-white text-slate-700 font-bold text-sm transition-colors border border-white btn-press">Batal</a>
+                <button type="submit"
+                        class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-xl shadow-indigo-200/50 transition-all btn-press">Simpan</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    {{ form.media }}
+{% endblock %}

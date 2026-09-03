@@ -1,0 +1,50 @@
+<footer class="mt-4 py-3 px-6 border-t border-white/40 flex items-center justify-between text-xs font-medium text-slate-500">
+    <div class="flex items-center gap-2">
+        {% if brand and brand.logo %}
+            <img src="{{ brand.logo }}"
+                 alt="{{ brand.name }}"
+                 class="w-6 h-6 rounded-lg object-cover">
+        {% else %}
+            <div class="w-6 h-6 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600">
+                <i class="fa-solid fa-shapes text-[10px]"></i>
+            </div>
+        {% endif %}
+        <span class="font-bold text-slate-600">{% if brand %}{{ brand.name }}{% else %}DashCore{% endif %}</span>
+    </div>
+    <div class="flex items-center gap-2">
+        {% if brand and brand.facebook %}
+            <a href="{{ brand.facebook }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-6 h-6 rounded-lg glass-base flex items-center justify-center text-slate-500 hover:bg-white hover:text-indigo-600 transition-colors"><i class="fa-brands fa-facebook-f text-[10px]"></i></a>
+        {% endif %}
+        {% if brand and brand.tiktok %}
+            <a href="{{ brand.tiktok }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-6 h-6 rounded-lg glass-base flex items-center justify-center text-slate-500 hover:bg-white hover:text-indigo-600 transition-colors"><i class="fa-brands fa-tiktok text-[10px]"></i></a>
+        {% endif %}
+        {% if brand and brand.youtube %}
+            <a href="{{ brand.youtube }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-6 h-6 rounded-lg glass-base flex items-center justify-center text-slate-500 hover:bg-white hover:text-indigo-600 transition-colors"><i class="fa-brands fa-youtube text-[10px]"></i></a>
+        {% endif %}
+        {% if brand and brand.instagram %}
+            <a href="{{ brand.instagram }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-6 h-6 rounded-lg glass-base flex items-center justify-center text-slate-500 hover:bg-white hover:text-indigo-600 transition-colors"><i class="fa-brands fa-instagram text-[10px]"></i></a>
+        {% endif %}
+    </div>
+    <div class="text-slate-400">
+        {% if developer_url and developer_url != '#' %}
+            <a href="{{ developer_url }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="hover:text-indigo-600 transition-colors">Developer by {{ developer_name }}</a>
+        {% else %}
+            <span>Developer by {{ developer_name }}</span>
+        {% endif %}
+    </div>
+</footer>

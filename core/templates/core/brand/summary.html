@@ -1,0 +1,79 @@
+{% load static %}
+<section class="glass-panel p-8 rounded-[2rem]">
+    <div class="flex items-center gap-5 mb-6">
+        <div class="w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-3xl">
+            <i class="fa-solid fa-copyright"></i>
+        </div>
+        <div>
+            <h2 class="text-2xl font-extrabold text-slate-800">{{ brand.name }}</h2>
+            {% if brand.description %}<p class="text-sm text-slate-500">{{ brand.description }}</p>{% endif %}
+        </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% if brand.logo %}
+            <div class="glass-base p-4 rounded-2xl flex items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-indigo-600"><i class="fa-solid fa-image"></i></span>
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Logo</p>
+                    <img src="{{ brand.logo }}"
+                         alt="{{ brand.name }}"
+                         class="w-16 h-16 rounded-xl object-cover mt-1">
+                </div>
+            </div>
+        {% endif %}
+        {% if brand.facebook %}
+            <a href="{{ brand.facebook }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="glass-base p-4 rounded-2xl flex items-center gap-3 hover:bg-white transition-all">
+                <span class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-indigo-600"><i class="fa-brands fa-facebook-f"></i></span>
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Facebook</p>
+                    <p class="text-sm font-semibold text-slate-700 truncate max-w-[150px]">{{ brand.facebook }}</p>
+                </div>
+            </a>
+        {% endif %}
+        {% if brand.youtube %}
+            <a href="{{ brand.youtube }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="glass-base p-4 rounded-2xl flex items-center gap-3 hover:bg-white transition-all">
+                <span class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-indigo-600"><i class="fa-brands fa-youtube"></i></span>
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">YouTube</p>
+                    <p class="text-sm font-semibold text-slate-700 truncate max-w-[150px]">{{ brand.youtube }}</p>
+                </div>
+            </a>
+        {% endif %}
+        {% if brand.tiktok %}
+            <a href="{{ brand.tiktok }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="glass-base p-4 rounded-2xl flex items-center gap-3 hover:bg-white transition-all">
+                <span class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-indigo-600"><i class="fa-brands fa-tiktok"></i></span>
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">TikTok</p>
+                    <p class="text-sm font-semibold text-slate-700 truncate max-w-[150px]">{{ brand.tiktok }}</p>
+                </div>
+            </a>
+        {% endif %}
+        {% if brand.instagram %}
+            <a href="{{ brand.instagram }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="glass-base p-4 rounded-2xl flex items-center gap-3 hover:bg-white transition-all">
+                <span class="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center text-indigo-600"><i class="fa-brands fa-instagram"></i></span>
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Instagram</p>
+                    <p class="text-sm font-semibold text-slate-700 truncate max-w-[150px]">{{ brand.instagram }}</p>
+                </div>
+            </a>
+        {% endif %}
+    </div>
+    <div class="mt-6 flex justify-end">
+        <a href="{% url 'core:brand_form' %}"
+           class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-200/50 transition-all btn-press">
+            <i class="fa-solid fa-pen mr-2"></i>Edit Brand
+        </a>
+    </div>
+</section>

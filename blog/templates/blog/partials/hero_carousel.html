@@ -1,0 +1,25 @@
+{% load static %}
+<section id="hero-carousel" class="carousel">
+    <div class="carousel-track" id="carousel-track">
+        {% for carousel in carousels %}
+            <div class="carousel-slide">
+                <img src="{{ carousel.image }}" alt="{{ carousel.name }}">
+                <div class="carousel-overlay"></div>
+                <div class="carousel-caption">{{ carousel.name }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="carousel-btn next" id="carousel-next" aria-label="Next">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    <div class="carousel-dots" id="carousel-dots">
+        {% for carousel in carousels %}
+            <button class="carousel-dot {% if forloop.first %}active{% endif %}"
+                    data-index="{{ forloop.counter0 }}"
+                    aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+    </div>
+</section>

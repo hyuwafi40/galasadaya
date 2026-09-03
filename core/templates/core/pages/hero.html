@@ -1,0 +1,21 @@
+{% load static %}
+<section class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div class="glass-panel p-6 rounded-[2rem] flex items-center gap-5">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+            <p class="text-sm font-semibold text-slate-500">Published</p>
+            <p class="text-3xl font-extrabold text-slate-800">{{ total_published }}</p>
+        </div>
+    </div>
+    <div class="glass-panel p-6 rounded-[2rem] flex items-center gap-5">
+        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-file-pen"></i>
+        </div>
+        <div>
+            <p class="text-sm font-semibold text-slate-500">Draft</p>
+            <p class="text-3xl font-extrabold text-slate-800">{{ total_draft }}</p>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,12 @@
+{% load static %}
+<section class="glass-panel p-10 rounded-[2rem] text-center">
+    <div class="w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-3xl mx-auto mb-5">
+        <i class="fa-solid fa-copyright"></i>
+    </div>
+    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Brand Belum Diatur</h2>
+    <p class="text-sm text-slate-500 mb-6">Lengkapi informasi brand untuk ditampilkan di seluruh sistem.</p>
+    <a href="{% url 'core:brand_form' %}"
+       class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-indigo-600 text-white font-bold text-sm shadow-lg shadow-indigo-200/50 hover:bg-indigo-700 transition-all btn-press">
+        <i class="fa-solid fa-plus"></i> Tambah Brand
+    </a>
+</section>

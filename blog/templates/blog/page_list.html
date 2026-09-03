@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Pages | {% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %}{% endblock %}
+{% block content %}
+    <div class="pt-16 pb-10">
+        <div class="text-center mb-20 relative z-20">
+            <h1 class="text-6xl sm:text-8xl font-black text-gray-900 uppercase tracking-tighter mix-blend-overlay opacity-80">Page<span class="text-neon-violet">s</span></h1>
+            <div class="glass-panel inline-block px-8 py-3 bg-white/70 -mt-10 relative z-30 shadow-xl border-l-4 border-l-neon-violet">
+                <p class="font-bold text-gray-700 text-lg">Jelajahi halaman statis kami.</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for page in pages %}
+                <a href="{% url 'blog:page' page.slug %}"
+                   class="glass-panel p-6 bg-white/40 hover:-translate-y-2 transition-all duration-500 block group">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-neon-violet/20 flex items-center justify-center text-neon-violet text-2xl">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <span class="font-black text-xs uppercase tracking-widest text-gray-500">{{ page.created_at|date:"d M Y" }}</span>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900 group-hover:text-neon-violet transition-colors">{{ page.title }}</h3>
+                    {% if page.thumbnail %}
+                        <div class="mt-4 overflow-hidden rounded-2xl aspect-video">
+                            <img src="{{ page.thumbnail }}"
+                                 alt="{{ page.title }}"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                    {% endif %}
+                </a>
+            {% empty %}
+                <p class="col-span-full text-center text-gray-500 py-10 font-black text-2xl uppercase">Belum ada halaman.</p>
+            {% endfor %}
+        </div>
+        {% include 'blog/base/pagination.html' with page_obj=page_obj %}
+    </div>
+{% endblock %}

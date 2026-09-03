@@ -1,0 +1,20 @@
+<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+    <form method="get"
+          action="{% url 'core:galleries' %}"
+          class="relative flex-1"
+          hx-get="{% url 'core:galleries' %}"
+          hx-target="#albumTable"
+          hx-push-url="false"
+          hx-vals='{"tab":"album"}'>
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input type="text"
+               name="q_album"
+               value="{{ search_album }}"
+               placeholder="Cari album..."
+               class="glass-input pl-11 pr-4 py-2.5 w-full rounded-2xl text-sm">
+    </form>
+    <a href="{% url 'core:galleries_album_create' %}"
+       class="px-5 py-2.5 rounded-2xl bg-indigo-600 text-white font-bold text-sm shadow-lg shadow-indigo-200/50 hover:bg-indigo-700 transition-all btn-press inline-flex items-center justify-center">
+        <i class="fa-solid fa-plus mr-2"></i>Album
+    </a>
+</div>

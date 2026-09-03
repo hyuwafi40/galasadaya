@@ -1,0 +1,51 @@
+<div id="tagsTable">
+    <div class="glass-panel rounded-[2rem] p-6">
+        <div class="overflow-x-auto hide-scroll rounded-2xl border border-white/60 bg-white/20">
+            <table class="w-full text-left border-collapse min-w-[500px]">
+                <thead>
+                    <tr class="bg-white/40 border-b border-white/60 text-xs text-slate-500 uppercase tracking-widest font-bold">
+                        <th class="px-5 py-4 w-16">No</th>
+                        <th class="px-5 py-4">Nama</th>
+                        <th class="px-5 py-4 w-40">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm divide-y divide-white/40 text-slate-600 font-medium">
+                    {% for tag in tags %}
+                        <tr class="hover:bg-white/40 transition-colors group">
+                            <td class="px-5 py-3.5">{{ forloop.counter }}</td>
+                            <td class="px-5 py-3.5 flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-tag"></i>
+                                </span>
+                                <span class="text-slate-800">{{ tag.name }}</span>
+                            </td>
+                            <td class="px-5 py-3.5">
+                                <div class="flex items-center gap-2">
+                                    <button data-form-open
+                                            data-url="{% url 'core:tags_update' tag.pk %}"
+                                            data-name="{{ tag.name }}"
+                                            class="w-8 h-8 rounded-xl bg-white/60 text-slate-500 hover:text-indigo-600 hover:bg-white transition-all shadow-sm btn-press">
+                                        <i class="fa-solid fa-pen text-xs"></i>
+                                    </button>
+                                    <button data-modal-open
+                                            data-url="{% url 'core:tags_delete' tag.pk %}"
+                                            class="w-8 h-8 rounded-xl bg-white/60 text-rose-500 hover:text-rose-600 hover:bg-white transition-all shadow-sm btn-press">
+                                        <i class="fa-solid fa-trash text-xs"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="px-5 py-8 text-center text-slate-400">
+                                <i class="fa-regular fa-tags text-2xl block mb-2"></i>
+                                Belum ada tag.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include 'core/base/pagination.html' with page_obj=page_obj %}
+    </div>
+</div>

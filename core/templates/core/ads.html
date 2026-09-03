@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Advertisements{% endblock %}
+{% block content %}
+    {% include 'core/ads/hero.html' %}
+    {% include 'core/ads/control.html' %}
+    {% include 'core/ads/table.html' %}
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Iklan" delete_message="Yakin ingin menghapus iklan ini?" delete_action_url="#" %}
+    {% include 'core/ads/form.html' %}
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/ads.js' %}"></script>
+{% endblock %}

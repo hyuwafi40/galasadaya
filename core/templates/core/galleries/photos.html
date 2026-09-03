@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% block title %}Photos {{ album.title }}{% endblock %}
+{% block content %}
+    <div class="grid gap-8">
+        {% include 'core/galleries/hero_photos.html' with album=album total_photos=total_photos %}
+        <div class="flex justify-end">
+            <a href="{% url 'core:galleries_photo_create' album.pk %}"
+               class="px-5 py-2.5 rounded-2xl bg-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-200/50 hover:bg-emerald-700 transition-all btn-press inline-flex items-center justify-center">
+                <i class="fa-solid fa-plus mr-2"></i>Tambah Foto
+            </a>
+        </div>
+        {% include 'core/galleries/table_photos.html' with photos=photos album=album %}
+    </div>
+{% endblock %}

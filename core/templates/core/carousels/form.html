@@ -1,0 +1,25 @@
+<dialog id="formModal"
+        class="fixed inset-0 bg-slate-900/20 backdrop-blur-[4px] z-[70] hidden flex items-center justify-center p-4 transition-opacity opacity-0 border-0 w-full h-full m-0 bg-transparent">
+    <div class="glass-panel w-full max-w-md p-7 rounded-[2rem] transform scale-95 transition-transform duration-300 modal-content">
+        <h3 class="text-xl font-extrabold text-slate-800 mb-6">Form Carousel</h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            {% for field in form %}
+                <fieldset class="group flex flex-col gap-1.5 mb-4">
+                    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider pl-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="text-rose-500 text-xs">{{ field.errors|striptags }}</span>
+                    {% endif %}
+                </fieldset>
+            {% endfor %}
+            <div class="flex gap-3 justify-end mt-6">
+                <button type="button"
+                        data-form-close
+                        class="px-5 py-2.5 rounded-xl bg-white/70 hover:bg-white text-slate-700 font-bold text-sm transition-colors border border-white btn-press">Batal</button>
+                <button type="submit"
+                        class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-xl shadow-indigo-200/50 transition-all btn-press">Simpan</button>
+            </div>
+        </form>
+    </div>
+</dialog>

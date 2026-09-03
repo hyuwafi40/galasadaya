@@ -1,0 +1,68 @@
+<header class="fixed top-4 left-0 w-full z-50 px-4 sm:px-8">
+    <div class="max-w-6xl mx-auto glass-pill px-6 py-3 flex items-center justify-between transition-all duration-300">
+        <a href="{% url 'blog:index' %}"
+           class="flex items-center gap-3 group"
+           id="brand-link">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-neon-pink to-neon-violet flex items-center justify-center text-white font-black text-xl shadow-lg group-hover:rotate-180 transition-transform duration-700">
+                <i class="fas fa-play"></i>
+            </div>
+            <span class="font-black text-2xl tracking-tighter text-gray-900 drop-shadow-sm">
+                {% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %}
+            </span>
+        </a>
+        <nav class="hidden md:flex space-x-1" aria-label="Main Navigation">
+            {% for item in navbar_menus %}
+                <a href="{% if item.url != '#' %}{% url item.url %}{% else %}#{% endif %}"
+                   class="px-5 py-2.5 rounded-full text-sm font-bold text-gray-800 hover:bg-white/50 hover:text-neon-pink transition-all">
+                    <i class="fas {{ item.icon }} mr-2"></i>{{ item.title }}
+                </a>
+            {% endfor %}
+        </nav>
+        <div class="flex items-center gap-3">
+            <form id="search-form-desktop"
+                  class="relative hidden sm:block group"
+                  action="{% url 'blog:search' %}"
+                  method="get">
+                <input type="text"
+                       name="q"
+                       placeholder="Cari artis, event..."
+                       class="w-48 lg:w-56 pl-12 pr-4 py-2.5 rounded-full glass-input text-sm font-semibold text-gray-800 placeholder-gray-600">
+                <button type="submit"
+                        class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-focus-within:text-neon-pink transition-colors">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <button id="mobile-menu-btn"
+                    class="md:hidden w-10 h-10 rounded-full bg-white/40 backdrop-blur-md flex items-center justify-center text-gray-900 border border-white/60 shadow-sm"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu">
+                <i class="fas fa-bars" id="menu-icon-open"></i>
+                <i class="fas fa-xmark hidden" id="menu-icon-close"></i>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-overlay" class="mobile-menu-overlay"></div>
+    <div id="mobile-menu" class="mobile-menu" role="dialog" aria-modal="true">
+        <div class="flex flex-col gap-3">
+            <form id="search-form-mobile"
+                  class="relative group"
+                  action="{% url 'blog:search' %}"
+                  method="get">
+                <input type="text"
+                       name="q"
+                       placeholder="Cari artis, event..."
+                       class="w-full pl-12 pr-4 py-3 rounded-full glass-input text-sm font-semibold text-gray-800 placeholder-gray-600">
+                <button type="submit"
+                        class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600 group-focus-within:text-neon-pink transition-colors">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            {% for item in navbar_menus %}
+                <a href="{% if item.url != '#' %}{% url item.url %}{% else %}#{% endif %}"
+                   class="px-5 py-3 rounded-2xl text-sm font-bold text-gray-800 hover:bg-white/60 transition-all">
+                    <i class="fas {{ item.icon }} mr-2"></i>{{ item.title }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</header>

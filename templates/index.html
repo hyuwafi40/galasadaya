@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login | {% if brand %}{{ brand.name }}{% else %}Dashboard{% endif %}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    </head>
+    <body class="login-body">
+        <main class="login-main">
+            <div class="login-container">
+                <section class="login-info" aria-hidden="true">
+                    <div class="login-info-content">
+                        <div class="login-info-logo">
+                            <i class="fa-solid fa-shapes"></i>
+                        </div>
+                        <h1 class="login-info-title">{% if brand %}{{ brand.name }}{% else %}Dashboard{% endif %}</h1>
+                        <p class="login-info-description">
+                            {% if brand and brand.description %}{{ brand.description }}{% else %}Sistem manajemen terpadu untuk kebutuhan bisnis Anda.{% endif %}
+                        </p>
+                        <div class="login-info-features">
+                            <div class="login-feature">
+                                <i class="fa-solid fa-chart-line login-feature-icon"></i>
+                                <span>Analitik Real-time</span>
+                            </div>
+                            <div class="login-feature">
+                                <i class="fa-solid fa-newspaper login-feature-icon"></i>
+                                <span>Konten Artikel</span>
+                            </div>
+                            <div class="login-feature">
+                                <i class="fa-solid fa-images login-feature-icon"></i>
+                                <span>Galeri Media</span>
+                            </div>
+                        </div>
+                        {% if brand %}
+                            <div class="login-info-socials">
+                                {% if brand.facebook %}
+                                    <a href="{{ brand.facebook }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+                                {% endif %}
+                                {% if brand.instagram %}
+                                    <a href="{{ brand.instagram }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                                {% endif %}
+                                {% if brand.youtube %}
+                                    <a href="{{ brand.youtube }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+                                {% endif %}
+                                {% if brand.tiktok %}
+                                    <a href="{{ brand.tiktok }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok"></i></a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </section>
+                <section class="login-card" aria-labelledby="login-title">
+                    <div class="login-header">
+                        <div class="login-logo">
+                            <i class="fa-solid fa-shapes"></i>
+                        </div>
+                        <h2 id="login-title" class="login-title">{% if brand %}{{ brand.name }}{% else %}Dashboard{% endif %}</h2>
+                        <p class="login-subtitle">Masuk untuk melanjutkan</p>
+                    </div>
+                    {% if form.non_field_errors %}
+                        <div class="login-error" role="alert">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>{{ form.non_field_errors.0 }}</span>
+                        </div>
+                    {% endif %}
+                    {% if messages %}
+                        <div class="login-messages">
+                            {% for message in messages %}
+                                <div class="login-message {{ message.tags }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post"
+                          action="{% url 'login' %}"
+                          id="login-form"
+                          autocomplete="on">
+                        {% csrf_token %}
+                        <div class="login-field">
+                            <label for="id_username" class="login-label">Username</label>
+                            <div class="login-input-wrapper">
+                                <i class="fa-solid fa-user login-input-icon"></i>
+                                <input type="text"
+                                       name="username"
+                                       id="id_username"
+                                       class="login-input"
+                                       placeholder="Masukkan username"
+                                       required
+                                       autofocus
+                                       autocomplete="username">
+                            </div>
+                            {% for error in form.username.errors %}
+                                <span class="login-field-error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="login-field">
+                            <label for="id_password" class="login-label">Password</label>
+                            <div class="login-input-wrapper">
+                                <i class="fa-solid fa-lock login-input-icon"></i>
+                                <input type="password"
+                                       name="password"
+                                       id="id_password"
+                                       class="login-input"
+                                       placeholder="Masukkan password"
+                                       required
+                                       autocomplete="current-password">
+                                <button type="button"
+                                        id="toggle-password"
+                                        class="login-toggle-password"
+                                        aria-label="Tampilkan password">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                            {% for error in form.password.errors %}
+                                <span class="login-field-error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" id="login-submit" class="login-btn">
+                            <span id="login-btn-text">Masuk</span>
+                            <span id="login-btn-loader" class="login-btn-loader hidden">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                    <p class="login-footer">&copy; {% now "Y" %} {% if brand %}{{ brand.name }}{% else %}Dashboard{% endif %}</p>
+                </section>
+            </div>
+        </main>
+        <script src="{% static 'js/login.js' %}"></script>
+    </body>
+</html>

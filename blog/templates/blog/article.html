@@ -1,0 +1,191 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}{% if article %}{{ article.title }} | {% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %}{% else %}Artikel Tidak Ditemukan{% endif %}{% endblock %}
+{% block meta_description %}{% if article %}{{ article.excerpt|default:article.content|striptags|truncatechars:160 }}{% endif %}{% endblock %}
+{% block structured_data %}
+    {% if article %}
+        <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ article.title }}",
+    "image": "{{ article.thumbnail }}",
+    "datePublished": "{{ article.created_at|date:'c' }}",
+    "author": {"@type": "Person", "name": "{{ article.created_by.get_full_name|default:article.created_by.username }}"}
+}
+        </script>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if article %}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-8">
+            <article class="lg:col-span-8">
+                <nav class="glass-pill inline-flex px-4 py-2 mb-8" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-2 text-xs font-bold text-gray-600">
+                        <li>
+                            <a href="{% url 'blog:index' %}" class="hover:text-neon-pink"><i class="fas fa-home"></i></a>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                        </li>
+                        {% if article.category %}
+                            <li><a href="{% url 'blog:category' article.category.slug %}"
+   class="hover:text-neon-pink uppercase">{{ article.category.name }}</a></li>
+                        {% else %}
+                            <li class="uppercase text-gray-400">Uncategorized</li>
+                        {% endif %}
+                    </ol>
+                </nav>
+                <header class="mb-12 relative z-20">
+                    <h1 class="text-4xl sm:text-6xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tighter uppercase">{{ article.title }}</h1>
+                    <div class="glass-panel p-4 inline-flex flex-wrap items-center gap-6 bg-white/60 text-sm font-bold border-l-4 border-l-neon-cyan rounded-xl">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-camera text-gray-500"></i>
+                            <span>{{ article.created_by.get_full_name|default:article.created_by.username }}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="far fa-calendar-alt text-gray-500"></i>
+                            <span>{{ article.created_at|date:"d M Y" }}</span>
+                        </div>
+                    </div>
+                </header>
+                <div class="glass-panel p-2 -ml-4 sm:-ml-12 mr-0 sm:-mr-8 relative z-10 mb-16 transform -rotate-1 shadow-2xl bg-white/30">
+                    <div class="absolute -top-4 right-4 bg-neon-yellow text-gray-900 text-xs font-black px-3 py-1 transform rotate-6 rounded">FEATURED</div>
+                    {% if article.thumbnail %}
+                        <img src="{{ article.thumbnail }}"
+                             alt="{{ article.title }}"
+                             class="w-full rounded-[1.5rem] md:rounded-[2.5rem] object-cover aspect-video">
+                    {% else %}
+                        <div class="w-full rounded-[1.5rem] md:rounded-[2.5rem] bg-gray-200 flex items-center justify-center aspect-video">
+                            <i class="fas fa-image text-6xl text-gray-400"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="flex flex-col sm:flex-row gap-8 relative z-20">
+                    <aside class="sm:w-16 flex-shrink-0 flex sm:flex-col gap-4 sticky top-28 h-max z-30">
+                        <div class="glass-panel p-2 rounded-full flex sm:flex-col gap-3 bg-white/60">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#1877F2] shadow-sm hover:scale-110 transition-transform"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.title|urlencode }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 shadow-sm hover:scale-110 transition-transform"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="https://wa.me/?text={{ article.title|urlencode }}%20{{ request.build_absolute_uri }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#25D366] shadow-sm hover:scale-110 transition-transform"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
+                    </aside>
+                    <div class="flex-grow prose prose-lg prose-slate max-w-none prose-headings:font-black prose-headings:uppercase prose-p:font-medium prose-p:text-gray-700">
+                        <div class="glass-panel p-6 bg-white/40 mb-8 border-l-4 border-l-neon-pink rounded-r-2xl italic font-bold text-gray-800 text-xl shadow-inner">
+                            "{{ article.excerpt|default:article.content|striptags|truncatechars:200 }}"
+                        </div>
+                        <div class="float-right w-64 p-4 ml-8 mb-6 glass-panel rounded-2xl bg-white/30 text-center transform rotate-2 hidden md:block">
+                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Ad Slot</span>
+                            {% with ad=advertisements_by_type.square.0 %}
+                                {% if ad %}
+                                    {% include 'blog/partials/advertisement_card.html' with ad=ad %}
+                                {% else %}
+                                    <div class="w-full h-40 border-2 border-dashed border-gray-400/50 rounded-xl flex items-center justify-center text-gray-400 font-bold">250x250</div>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        {{ article.content|safe }}
+                    </div>
+                </div>
+                <div class="mt-20 relative">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-neon-cyan/20 to-neon-violet/20 rounded-[3rem] filter blur-xl -z-10">
+                    </div>
+                    <section id="comments-section" class="glass-panel p-8 sm:p-10 bg-white/60">
+                        <h3 class="text-3xl font-black mb-8 text-gray-900 uppercase tracking-tighter">Beri Respon <span class="text-neon-pink">({{ comments|length }})</span></h3>
+                        <form method="post" action="" class="mb-12">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <fieldset class="group flex flex-col gap-1.5 mb-4">
+                                    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider pl-1">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <span class="text-rose-500 text-xs">{{ field.errors|striptags }}</span>
+                                    {% endif %}
+                                </fieldset>
+                            {% endfor %}
+                            <button type="submit"
+                                    class="glass-btn px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm shadow-xl">Post Comment</button>
+                        </form>
+                        <div id="comment-list" class="space-y-6">
+                            {% for comment in comments %}
+                                <div class="glass-panel p-6 bg-white/40 flex gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gray-900 text-white flex-shrink-0 flex items-center justify-center font-black text-lg border-2 border-neon-cyan shadow-md transform -rotate-6">{{ comment.name|first|upper }}</div>
+                                    <div>
+                                        <div class="flex items-center gap-3 mb-1">
+                                            <h4 class="font-black text-gray-900 uppercase">{{ comment.name }}</h4>
+                                            <span class="text-[10px] font-bold text-gray-500 px-2 py-1 bg-white/50 rounded-full">{{ comment.created_at|date:"d M Y" }}</span>
+                                        </div>
+                                        <p class="font-semibold text-gray-700">{{ comment.text }}</p>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p class="text-center text-gray-500 font-bold">Belum ada komentar.</p>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
+            </article>
+            <aside class="lg:col-span-4 mt-10 lg:mt-0 relative z-20">
+                <div class="sticky top-28 space-y-10">
+                    {% if related_articles %}
+                        <div class="glass-panel p-6 bg-white/40 border-t-8 border-t-neon-pink">
+                            <h3 class="font-black text-gray-900 mb-6 text-xl uppercase tracking-tighter">Up Next</h3>
+                            <div class="space-y-6">
+                                {% for rel in related_articles %}
+                                    <a href="{% url 'blog:article' rel.slug %}" class="flex gap-4 group">
+                                        <div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg transform rotate-2 group-hover:rotate-0 transition-transform">
+                                            {% if rel.thumbnail %}
+                                                <img src="{{ rel.thumbnail }}"
+                                                     alt="{{ rel.title }}"
+                                                     loading="lazy"
+                                                     class="w-full h-full object-cover">
+                                            {% else %}
+                                                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                    <i class="fas fa-image text-gray-400"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <span class="text-[10px] font-black text-neon-violet uppercase mb-1">{{ rel.category.name|default:"Uncategorized" }}</span>
+                                            <h4 class="text-sm font-black text-gray-800 leading-tight group-hover:text-neon-pink transition-colors line-clamp-2">{{ rel.title }}</h4>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="glass-panel p-8 text-center bg-gray-900 text-white transform -rotate-1 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-neon-cyan/20"></div>
+                        <div class="relative z-10">
+                            <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-4 border-b border-gray-700 pb-2">Sponsor Ads</span>
+                            {% with ad=advertisements_by_type.banner.0 %}
+                                {% if ad %}
+                                    {% include 'blog/partials/advertisement_card.html' with ad=ad %}
+                                {% else %}
+                                    <h4 class="font-black text-2xl mb-2 text-white">DJ Gear Diskon 50%</h4>
+                                    <p class="text-sm text-gray-300 font-semibold mb-6">Upgrade setup lo sekarang dengan promo khusus komunitas SonicVibe.</p>
+                                    <button class="bg-white text-gray-900 px-6 py-2 rounded-full font-black text-sm hover:bg-neon-cyan transition-colors">Claim Promo</button>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    {% else %}
+        <div class="py-40 text-center">
+            <h1 class="text-6xl font-black text-gray-900 uppercase tracking-tighter">Lost in the crowd</h1>
+            <p class="text-gray-600 mt-4 font-bold">Artikel tidak ditemukan.</p>
+            <a href="{% url 'blog:index' %}"
+               class="glass-btn px-8 py-3 rounded-full font-black uppercase text-sm inline-block mt-8"><i class="fas fa-home mr-2"></i> Back to Stage</a>
+        </div>
+    {% endif %}
+{% endblock %}

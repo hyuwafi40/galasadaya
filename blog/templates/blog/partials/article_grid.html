@@ -1,0 +1,23 @@
+{% load static %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-24 mt-10">
+    {% for article in articles %}
+        {% if page_obj.number == 1 and not carousels and forloop.first %}
+        {% else %}
+            {% if page_obj.number == 1 %}
+                {% if forloop.counter == 2 %}
+                    {% include 'blog/partials/article_card.html' with article=article counter=1 is_first=True %}
+                {% else %}
+                    {% include 'blog/partials/article_card.html' with article=article counter=forloop.counter|add:"-1" is_first=False %}
+                {% endif %}
+            {% else %}
+                {% if forloop.counter == 1 %}
+                    {% include 'blog/partials/article_card.html' with article=article counter=1 is_first=True %}
+                {% else %}
+                    {% include 'blog/partials/article_card.html' with article=article counter=forloop.counter is_first=False %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% empty %}
+        <p class="col-span-full text-center text-gray-500 py-10 font-black text-2xl uppercase">Belum ada konten.</p>
+    {% endfor %}
+</div>

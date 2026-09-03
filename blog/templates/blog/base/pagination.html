@@ -1,0 +1,43 @@
+{% if page_obj and page_obj.paginator.num_pages > 1 %}
+    <nav class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10"
+         aria-label="Pagination">
+        <span class="text-sm font-bold text-gray-700">
+            Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}
+        </span>
+        <div class="flex items-center gap-2">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+                   class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-700 hover:bg-white hover:text-neon-pink transition-all">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            {% else %}
+                <span class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-400 cursor-not-allowed">
+                    <i class="fas fa-chevron-left"></i>
+                </span>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                    <span class="w-10 h-10 rounded-full bg-neon-pink text-white font-black flex items-center justify-center shadow-lg">{{ num }}</span>
+                {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                    <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+                       class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-700 hover:bg-white font-bold">{{ num }}</a>
+                {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+                       class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-700 hover:bg-white font-bold">{{ num }}</a>
+                {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <span class="w-10 h-10 flex items-center justify-center text-gray-400">...</span>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+                   class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-700 hover:bg-white hover:text-neon-pink transition-all">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            {% else %}
+                <span class="w-10 h-10 rounded-full glass-input flex items-center justify-center text-gray-400 cursor-not-allowed">
+                    <i class="fas fa-chevron-right"></i>
+                </span>
+            {% endif %}
+        </div>
+    </nav>
+{% endif %}

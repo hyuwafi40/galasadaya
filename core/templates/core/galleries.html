@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block title %}Galleries{% endblock %}
+{% block content %}
+    <div class="grid gap-8">
+        {% include 'core/galleries/hero_album.html' %}
+        {% include 'core/galleries/control.html' %}
+        {% include 'core/galleries/table_album.html' %}
+    </div>
+{% endblock %}
+{% block modal %}
+    {% include 'core/base/delete.html' with delete_title="Hapus Data" delete_message="Yakin ingin menghapus data ini?" %}
+{% endblock %}

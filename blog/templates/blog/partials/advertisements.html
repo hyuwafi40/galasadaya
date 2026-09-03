@@ -1,0 +1,13 @@
+{% load static %}
+<section class="my-20">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for ad in advertisements %}
+            {% include 'blog/partials/advertisement_card.html' with ad=ad %}
+        {% empty %}
+            <div class="glass-panel p-6 text-center text-gray-400 col-span-full">
+                <i class="fas fa-ad text-3xl mb-2"></i>
+                <p class="font-bold">Slot iklan tersedia.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>

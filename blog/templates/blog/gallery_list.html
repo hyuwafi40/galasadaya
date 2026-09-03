@@ -1,0 +1,43 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Galeri | {% if brand %}{{ brand.name }}{% else %}SonicVibe{% endif %}{% endblock %}
+{% block content %}
+    <div class="pt-16 pb-10">
+        <div class="text-center mb-20 relative z-20">
+            <h1 class="text-6xl sm:text-8xl font-black text-gray-900 uppercase tracking-tighter mix-blend-overlay opacity-80">Galeri</h1>
+            <div class="glass-panel inline-block px-8 py-3 bg-white/70 -mt-10 relative z-30 shadow-xl border-l-4 border-l-neon-cyan">
+                <p class="font-bold text-gray-700 text-lg">{{ albums|length }} album visual.</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for album in albums %}
+                <a href="{% url 'blog:gallery_detail' album.slug %}"
+                   class="glass-panel overflow-hidden rounded-[2rem] group hover:-translate-y-2 transition-all duration-500">
+                    <div class="aspect-video overflow-hidden">
+                        {% if album.thumbnail %}
+                            <img src="{{ album.thumbnail }}"
+                                 alt="{{ album.title }}"
+                                 loading="lazy"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        {% else %}
+                            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-images text-4xl text-gray-400"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-black text-gray-900 group-hover:text-neon-violet transition-colors">{{ album.title }}</h2>
+                        <p class="text-sm font-semibold text-gray-500 mt-2">{{ album.description|default:"Tidak ada deskripsi." }}</p>
+                        <div class="flex items-center gap-2 mt-4 text-xs font-bold text-gray-500">
+                            <i class="fas fa-camera"></i>
+                            <span>{{ album.total_photos }} foto</span>
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="col-span-full text-center text-gray-500 py-10 font-black text-2xl uppercase">Belum ada album.</p>
+            {% endfor %}
+        </div>
+        {% include 'blog/base/pagination.html' with page_obj=page_obj %}
+    </div>
+{% endblock %}

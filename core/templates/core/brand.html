@@ -1,0 +1,9 @@
+{% extends 'core/base.html' %}
+{% block title %}Brand{% endblock %}
+{% block content %}
+    {% if is_initial %}
+        {% include 'core/brand/fallback.html' %}
+    {% else %}
+        {% include 'core/brand/summary.html' %}
+    {% endif %}
+{% endblock %}

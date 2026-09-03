@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>404 | Halaman Tidak Ditemukan</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/core.css' %}">
+    </head>
+    <body class="min-h-screen flex items-center justify-center bg-slate-100 p-4">
+        <main class="glass-panel p-8 rounded-[2rem] text-center max-w-lg w-full anim-fade-in">
+            <div class="text-6xl font-black text-indigo-600 mb-4">404</div>
+            <i class="fa-solid fa-compass text-5xl text-blue-500 mb-4"></i>
+            <h1 class="text-2xl font-extrabold text-slate-800 mb-2">Halaman Tidak Ditemukan</h1>
+            <p class="text-slate-600 mb-6">Halaman yang Anda cari tidak ditemukan.</p>
+            <a href="/core/"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 text-white font-bold shadow-lg btn-press">Kembali ke Beranda</a>
+        </main>
+    </body>
+</html>
