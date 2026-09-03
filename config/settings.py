@@ -1,4 +1,3 @@
-# config/settings.py
 from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
@@ -27,10 +26,10 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "solo",
     "guardian",
-    "django_cleanup",
     "django_ckeditor_5",
     "core",
     "blog",
+    "django_cleanup",
 ]
 
 MIDDLEWARE = [

@@ -1,15 +1,19 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_migrate
 from django.conf import settings
+from django.db.models.signals import post_migrate
 
 
 def create_default_site(sender, **kwargs):
     from django.contrib.sites.models import Site
 
-    site = Site.objects.filter(id=1).first()
-    if not site:
-        Site.objects.create(id=1, domain=settings.SITE_DOMAIN, name=settings.SITE_NAME)
-    else:
+    site, created = Site.objects.get_or_create(
+        id=1,
+        defaults={
+            "domain": settings.SITE_DOMAIN,
+            "name": settings.SITE_NAME,
+        },
+    )
+    if not created:
         site.domain = settings.SITE_DOMAIN
         site.name = settings.SITE_NAME
         site.save()
