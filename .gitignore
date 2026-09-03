@@ -28,8 +28,11 @@ venv.bak/
 
 # Django
 *.log
+logs/
 db.sqlite3
 db.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
 local_settings.py
 /media/
 /staticfiles/
@@ -100,7 +103,6 @@ $RECYCLE.BIN/
 *.keystore
 
 # Logs & Temp
-logs/
 temp/
 tmp/
 
